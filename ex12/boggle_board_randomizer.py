@@ -35,7 +35,6 @@ def randomize_board(dice_list=LETTERS):
         board.append(row)
     return board
 
-
 if __name__=="__main__":
     from pprint import pprint
     pprint(randomize_board())

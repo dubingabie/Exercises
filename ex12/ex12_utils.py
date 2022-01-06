@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-MOVES_LIST = [(-1, -1), (-1, 0), (-1, 1), (0, 1), (0, 1), (1, -1), (1, 0), (1, 1)]
+MOVES_LIST = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
 
 
 def is_valid_path(board, path, words):
@@ -26,17 +26,18 @@ def is_path_legal(path) -> bool:
     :param path: a list of tuples that contains the cells on the board which the user chose
     :return: True if the path is legal and False otherwise
     """
-    is_legal = True
-    if not is_in_range(path[0]) or len(path) != len(set(path)):
-        is_legal = False
-    else:
-        for i in range(1, len(path)):
-            if not is_in_range(path[i]):
-                is_legal = False
-                break
-            if (path[i][0] - path[i-1][0]) > 1 or (path[i][1] - path[i-1][1]) > 1:
-                is_legal = False
-                break
+    is_legal = True if path else None
+    if is_legal:
+        if not is_in_range(path[0]) or len(path) != len(set(path)):
+            is_legal = False
+        else:
+            for i in range(1, len(path)):
+                if not is_in_range(path[i]):
+                    is_legal = False
+                    break
+                if (path[i][0] - path[i-1][0]) > 1 or (path[i][1] - path[i-1][1]) > 1:
+                    is_legal = False
+                    break
     return is_legal
 
 
@@ -134,6 +135,24 @@ def is_in_range(coordinates):
     return (0 <= coordinates[0] <= 3) and (0 <= coordinates[1] <= 3)
 
 
+# def find_length_n_words(n, board, words):
+#     """
+#     this function finds all of the legal paths to words with n letters
+#     :param n: an int that contains the length of words in the paths
+#     :param board: a two dimensional list containing the game board
+#     :param words: a list that contains the length of all of legal words
+#     :return: a list that contains all of the paths to n length words
+#     """
+#     all_n_length_paths = list()
+#     for path_len in range(1, n+1):
+#         cur_n_length_paths = find_length_n_paths(path_len, board, words)
+#         for cur_path in cur_n_length_paths:
+#             if cur_path not in all_n_length_paths:
+#                 all_n_length_paths.append(cur_path)
+#     return list(filter(lambda path: len(get_word_in_path(path, board)) == n, all_n_length_paths))
+
+
+
 def find_length_n_words(n, board, words):
     """
     this function finds all of the legal paths to words with n letters
@@ -142,13 +161,40 @@ def find_length_n_words(n, board, words):
     :param words: a list that contains the length of all of legal words
     :return: a list that contains all of the paths to n length words
     """
-    all_n_length_paths = list()
-    for path_len in range(1, n+1):
-        cur_n_length_paths = find_length_n_paths(path_len, board, words)
-        for cur_path in cur_n_length_paths:
-            if cur_path not in all_n_length_paths:
-                all_n_length_paths.append(cur_path)
-    return list(filter(lambda path: len(get_word_in_path(path, board)) == n, all_n_length_paths))
+    all_paths_lst = list()
+    cur_path = list()
+    for row in range(4):
+        for col in range(4):
+            cur_path.append((row, col))
+            filtered_words = filter_words_list(cur_path, board, words)
+            __find_length_n_paths_core(cur_path, all_paths_lst, n-1, board, filtered_words)
+            cur_path = list()
+    return list(filter(lambda path: len(get_word_in_path(path, board)) == n, all_paths_lst))
+
+
+def __find_length_n_words_core(cur_path, all_paths_lst, n, board, words):
+    # TODO - add docstring
+    """
+    recursive core function for the find_length_words_core
+    :param cur_path:
+    :param all_paths_lst:
+    :param n:
+    :param board:
+    :param words:
+    :return:
+    """
+    if n == 0:
+        return
+    for possible_move in MOVES_LIST:
+        next_move = (cur_path[-1][0] + possible_move[0], cur_path[-1][1] + possible_move[1])
+        if is_in_range(next_move):
+            cur_path.append(next_move)
+            if is_path_in_words_list(cur_path, board, words):
+                if is_valid_path(board, cur_path, words) and cur_path not in all_paths_lst:
+                    all_paths_lst.append(deepcopy(cur_path))
+                filtered_words = filter_words_list(cur_path, board, words)
+                __find_length_n_paths_core(cur_path, all_paths_lst, n-1, board, filtered_words)
+            cur_path.pop()
 
 
 def max_score_paths(board, words):

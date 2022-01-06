@@ -97,7 +97,7 @@ class Snake:
         new_x_location = self.get_head_location()[0] + MOVES_DICT[self.direction][0]
         new_y_location = self.get_head_location()[1] + MOVES_DICT[self.direction][1]
         does_collide = False
-        if new_x_location < 0 or new_x_location >= WIDTH  or new_y_location < 0 or new_y_location >= HEIGHT  :
+        if new_x_location < 0 or new_x_location >= WIDTH or new_y_location < 0 or new_y_location >= HEIGHT:
             does_collide = True
         if (new_x_location, new_y_location) in bomb_location:
             does_collide = True

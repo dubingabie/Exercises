@@ -62,25 +62,25 @@ class Game:
         :return: a tuple containing a bool type that states True if the game is over and False otherwise
         and an int containing the amount of rounds the snake has to keep growing in
         """
+        if self.bomb.is_max_radius() : #or self.is_bomb_out_of_bounds()
+            self.bomb = self.__place_bomb(self.snake)
         cur_snake_length = self.snake.get_length()
         self.snake.move(key_clicked, does_grow, self.bomb_location())
         self.__apple_eaten()
         self.bomb.bomb_round()
-        if self.bomb.is_max_radius() or self.is_bomb_out_of_bounds():
-            self.bomb = self.__place_bomb(self.snake)
         return self.is_game_over(cur_snake_length)
 
-    def is_bomb_out_of_bounds(self):
-        """
-        this function checked if the bomb blast is out of bounds
-        :return: True if the bomb blast is out of bounds and false otherwise
-        """
-        out_of_bounds = False
-        for location in self.bomb_location():
-            if location[0] >= WIDTH or location[0] < 0 or location[1] >= HEIGHT or location[1] < 0:
-                out_of_bounds = True
-                break
-        return out_of_bounds
+    # def is_bomb_out_of_bounds(self):
+    #     """
+    #     this function checked if the bomb blast is out of bounds
+    #     :return: True if the bomb blast is out of bounds and false otherwise
+    #     """
+    #     out_of_bounds = False
+    #     for location in self.bomb_location():
+    #         if location[0] >= WIDTH or location[0] < 0 or location[1] >= HEIGHT or location[1] < 0:
+    #             out_of_bounds = True
+    #             break
+    #     return out_of_bounds
 
     def __apple_eaten(self):
         """

@@ -39,7 +39,13 @@ class Bomb:
             self.old_location.add(cell)
             for direction in MOVES_DICT.values():
                 new_location.add((cell[0] + direction[0], cell[1] + direction[1]))
-        return list(new_location - self.old_location)
+        return self.filter_out_of_range_blast(list(new_location - self.old_location))
+
+    def filter_out_of_range_blast(self, bomb_location_list):
+        return list(filter(lambda coordinates: not self.is_blast_out_of_range(coordinates), bomb_location_list))
+
+    def is_blast_out_of_range(self, coordinates):
+        return coordinates[0] < 0 or coordinates[0] >= WIDTH or coordinates[1] < 0 or coordinates[1] >= HEIGHT
 
     def get_coordinates(self):
         """
@@ -60,7 +66,7 @@ class Bomb:
         this method checked if the bomb blast has reached its maximum radius
         :return: True if the bomb has reached its maximum radius and false otherwise
         """
-        return self.cur_radius == self.radius
+        return self.cur_radius == self.radius +1
 
 
 

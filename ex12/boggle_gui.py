@@ -92,6 +92,8 @@ class BoogleGUI:
                 button['background'] = REGULAR_COLOR
             if button_char in {"clear", "choose"}:
                 button['background'] = REGULAR_COLOR
+                self.__clear_buttons()
+
 
         button.bind("<Button-1>", _on_press)
         return button

@@ -1,4 +1,4 @@
-from boggle_gui import BoogleGUI
+from boggle_gui import BoggleGUI
 from boggle_model import BoogleModel
 
 

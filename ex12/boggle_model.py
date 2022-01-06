@@ -9,19 +9,19 @@ class BoogleModel:
     def __init__(self):
         self.board = randomize_board()
         self.current_path = list()
-        self.score = 0
         self.chosen_words = set()
+        self.score = 0
 
     def choose_word(self):
         chosen_word = is_valid_path(self.board, self.current_path, WORDS)
-        if chosen_word:
-            self.score += len(self.current_path) ** 2
+        if chosen_word and (chosen_word not in self.chosen_words):
+            self.score += (len(self.current_path) ** 2)
             self.chosen_words.add(chosen_word)
         self.current_path = list()
+        return chosen_word
 
     def clear_path(self):
         self.current_path = list()
 
     def update_current_path(self, coordinates):
         self.current_path.append(coordinates)
-

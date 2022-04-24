@@ -228,5 +228,5 @@ if __name__ == "__main__":
     #     page_rank(int(sys.argv[2]), sys.argv[3], sys.argv[4])
     # elif sys.argv[1] == "crawl" and len(sys.argv) == 5:
     #     crawl(sys.argv[2], sys.argv[3], sys.argv[4])
-    # search("wand","page_rank_dict.pickle","words_dict.pickle",4)
-    print(open_dict_file("words_dict.pickle"))
+    search("hary","page_rank_dict.pickle","words_dict.pickle",4)
+    #print(open_dict_file("words_dict.pickle"))

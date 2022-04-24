@@ -14,24 +14,25 @@ BUTTON_STYLE = {
 
 
 class StartGUI:
+    """ this class cantians the start screen gui: it contains the start button and a welcome statement """
     def __init__(self):
         def start():
             self.game_started = True
             self.root.destroy()
 
         self.root = tki.Tk()
+        self.root.resizable(False, False)
         self.root.title("Boggle")
         self.game_started = False
 
-        start_frame = tki.Frame(self.root, bg=REGULAR_COLOR, highlightbackground=REGULAR_COLOR, highlightthickness=5)
-        start_frame.pack(fill=tki.BOTH, expand=True)
+        start_frame = tki.Frame(self.root, bg=REGULAR_COLOR)
+        start_frame.pack(fill=tki.BOTH)
 
-        start_label = tki.Label(start_frame, font=("Courier", 20), bg=REGULAR_COLOR,
-                                width=30, height=10, relief="ridge", text="Let's start playing!")
+        start_label = tki.Label(start_frame, font=("Courier bolt", 20), bg=REGULAR_COLOR, text="Welcome to Boggle!", relief="ridge",border=2, padx=20, pady=20)
+        start_label.pack(fill=tki.BOTH,side=tki.TOP)
 
-        start_label.pack(side=tki.TOP, fill=tki.BOTH)
-
-        play_button = tki.Button(start_frame, text="Play")
+        play_photo = tki.PhotoImage(file="images/play.png")
+        play_button = tki.Button(start_frame, image=play_photo, border=5)
         play_button.configure(command=start)
-        play_button.pack()
+        play_button.pack(fill=tki.BOTH, side=tki.BOTTOM)
         self.root.mainloop()

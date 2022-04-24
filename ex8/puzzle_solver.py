@@ -155,7 +155,7 @@ def solve_puzzle_core(picture: Picture, constraints_set: Set[Constraint],
     for value in range(2):
         picture[i_row][i_col] = value
         solve_puzzle_core(picture, constraints_set, i_row, i_col+1, solution_list)
-    picture[i_row][i_col] = -16
+    picture[i_row][i_col] = -1 # was 16 , maybe a mistake
 
 
 def how_many_solutions(constraints_set: Set[Constraint], n: int, m: int) -> int:
